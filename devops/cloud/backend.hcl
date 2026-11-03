@@ -1,2 +1,2 @@
-bucket = "its-ict-sage-federico-pugliese-tfstate"
+bucket = "its-ict-sage-edoardo-querio-tfstate"
 prefix = "sage"
