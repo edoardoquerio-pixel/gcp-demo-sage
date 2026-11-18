@@ -4,6 +4,8 @@ from pathlib import Path
 
 from sage.domain.qa.models import Chunk
 from sage.integrations.llm.generate import generate_text
+import asyncio
+from sage.integrations.storage.instructions import read_instructions
 
 _PROMPT_TEMPLATE = (Path(__file__).parent / "prompts" / "answer_prompt.txt").read_text(
     encoding="utf-8"
@@ -23,5 +25,6 @@ def build_prompt(question: str, chunks: list[Chunk]) -> str:
 
 
 async def generate_answer(question: str, chunks: list[Chunk]) -> str:
+    instructions = await asyncio.to_thread(read_instructions)
     prompt = build_prompt(question, chunks)
-    return await generate_text(prompt)
+    return await generate_text(f"{instructions}\n\n{prompt}")
